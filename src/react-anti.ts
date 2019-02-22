@@ -6,22 +6,22 @@ interface WrapperComponent extends FunctionComponent {
   visible: boolean;
 }
 
-export default <P = {}>(WrappedComponent: any = 'div') => {
+export default <P = {}>(WrappedComponent: any) => {
   let ref: any = {
     state: false,
     setState: null,
     props: undefined
   };
-  const wrapper: WrapperComponent = function(props: P) {
+  const anti: WrapperComponent = function(props: P) {
     const [state, setState] = useState(false);
     ref.state = state;
     ref.setState = setState;
     return createElement(
       WrappedComponent as ReactType<P>,
-      Object.assign({ visible: state }, props, ref.props)
+      Object.assign({ anti }, props, ref.props)
     );
   } as WrapperComponent;
-  Object.defineProperty(wrapper, 'visible', {
+  Object.defineProperty(anti, 'visible', {
     get() {
       return ref.state;
     },
@@ -30,17 +30,17 @@ export default <P = {}>(WrappedComponent: any = 'div') => {
     },
     enumerable: true
   });
-  wrapper.show = props => {
+  anti.show = props => {
     if (props !== undefined) {
       ref.props = props;
     }
-    wrapper.visible = true;
+    anti.visible = true;
   };
-  wrapper.hide = () => {
+  anti.hide = () => {
     if (ref.props !== undefined) {
       ref.props = undefined;
     }
-    wrapper.visible = false;
+    anti.visible = false;
   };
-  return wrapper;
+  return anti;
 };
