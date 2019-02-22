@@ -22,7 +22,10 @@ export default <P = {}>(WrappedComponent: any) => {
     return createElement(
       Context.Provider,
       { value: wrapper as any },
-      createElement(WrappedComponent as ReactType<P>, Object.assign({}, props, ref.props))
+      createElement(
+        WrappedComponent as ReactType<P>,
+        Object.assign({ visible: state }, props, ref.props)
+      )
     );
   } as WrapperComponent;
   Object.defineProperty(wrapper, 'visible', {
