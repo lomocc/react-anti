@@ -38,15 +38,10 @@ export default <P = {}>(WrappedComponent: any) => {
     enumerable: true
   });
   wrapper.show = props => {
-    if (props !== undefined) {
-      ref.props = props;
-    }
+    ref.props = props;
     wrapper.visible = true;
   };
   wrapper.hide = () => {
-    if (ref.props !== undefined) {
-      ref.props = undefined;
-    }
     wrapper.visible = false;
   };
   return wrapper;
