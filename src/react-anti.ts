@@ -1,4 +1,4 @@
-import { createElement, FunctionComponent, ReactType, useState } from 'react';
+import { createContext, createElement, FunctionComponent, ReactType, useState } from 'react';
 
 interface WrapperComponent extends FunctionComponent {
   show: (props?: {}) => void;
@@ -6,22 +6,26 @@ interface WrapperComponent extends FunctionComponent {
   visible: boolean;
 }
 
+export const Context = createContext(null);
+
 export default <P = {}>(WrappedComponent: any) => {
   let ref: any = {
     state: false,
     setState: null,
     props: undefined
   };
-  const anti: WrapperComponent = function(props: P) {
+  const wrapper: WrapperComponent = function(props: P) {
     const [state, setState] = useState(false);
     ref.state = state;
     ref.setState = setState;
+
     return createElement(
-      WrappedComponent as ReactType<P>,
-      Object.assign({ anti }, props, ref.props)
+      Context.Provider,
+      { value: wrapper as any },
+      createElement(WrappedComponent as ReactType<P>, Object.assign({}, props, ref.props))
     );
   } as WrapperComponent;
-  Object.defineProperty(anti, 'visible', {
+  Object.defineProperty(wrapper, 'visible', {
     get() {
       return ref.state;
     },
@@ -30,17 +34,17 @@ export default <P = {}>(WrappedComponent: any) => {
     },
     enumerable: true
   });
-  anti.show = props => {
+  wrapper.show = props => {
     if (props !== undefined) {
       ref.props = props;
     }
-    anti.visible = true;
+    wrapper.visible = true;
   };
-  anti.hide = () => {
+  wrapper.hide = () => {
     if (ref.props !== undefined) {
       ref.props = undefined;
     }
-    anti.visible = false;
+    wrapper.visible = false;
   };
-  return anti;
+  return wrapper;
 };
