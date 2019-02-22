@@ -16,8 +16,9 @@ export default <P = {}>(WrappedComponent: any = 'div') => {
     const [state, setState] = useState(false);
     ref.state = state;
     ref.setState = setState;
-    return (
-      state && createElement(WrappedComponent as ReactType<P>, Object.assign({}, props, ref.props))
+    return createElement(
+      WrappedComponent as ReactType<P>,
+      Object.assign({}, props, ref.props, { visible: state })
     );
   } as WrapperComponent;
   Object.defineProperty(wrapper, 'visible', {
