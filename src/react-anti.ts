@@ -69,9 +69,9 @@ let uniqueKey = 0;
 const Provider: React.SFC<Props> = ({ container }) =>
   React.createElement(Container, { container, ref });
 
-const anti = (element: ReactElement) => {
-  return ref.current.show(element);
-};
+const anti: { (element: ReactElement): AntiPromise; Provider?: React.SFC<Props> } = (
+  element: ReactElement
+) => ref.current.show(element);
 
 anti.Provider = Provider;
 
