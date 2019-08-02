@@ -34,13 +34,12 @@ class Container extends React.Component<Props, State> {
           children: [...children, cloned]
         };
       });
-    }).then(result => {
+    }).finally(() => {
       this.setState(({ children }) => {
         return {
           children: children.filter(val => val !== cloned)
         };
       });
-      return result;
     });
     promise.resolve = promiseResolve;
     promise.reject = promiseReject;
