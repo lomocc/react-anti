@@ -5,9 +5,9 @@ import resolve from 'rollup-plugin-node-resolve';
 import sourceMaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
 
-const pkg = require('./package.json')
+const pkg = require('./package.json');
 
-const libraryName = 'react-anti'
+const libraryName = 'react-anti';
 
 export default {
   input: `src/${libraryName}.ts`,
@@ -16,7 +16,7 @@ export default {
     { file: pkg.module, format: 'es', sourcemap: true }
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-  external: ['react'],
+  external: ['react', 'react-dom'],
   watch: {
     include: 'src/**'
   },
@@ -35,4 +35,4 @@ export default {
     // Resolve source maps to the original source
     sourceMaps()
   ]
-}
+};
