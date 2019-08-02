@@ -69,11 +69,12 @@ let uniqueKey = 0;
 const Provider: React.SFC<Props> = ({ container }) =>
   React.createElement(Container, { container, ref });
 
-const show = (element: ReactElement) => {
+const anti = (element: ReactElement) => {
   return ref.current.show(element);
 };
 
-export default {
-  Provider,
-  show
-};
+anti.Provider = Provider;
+
+export default anti;
+
+export { Provider };
